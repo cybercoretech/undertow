@@ -44,7 +44,7 @@
 </head>
 <body>
   <header class="site-header">
-    <a class="brand" href="https://cybercore-tech.github.io/" data-brand-phase="0" aria-label="Cybercore Tech home"><span class="brand-emblem">CC</span><span class="brand-name">CYBERCORE <b>/</b> UNDERTOW<small>SECURITY TOOLS</small></span></a>
+    <a class="brand" href="https://cybercoretech.github.io/" data-brand-phase="0" aria-label="Cybercore Tech home"><span class="brand-emblem">CC</span><span class="brand-name">CYBERCORE <b>/</b> UNDERTOW<small>SECURITY TOOLS</small></span></a>
     <nav class="main-nav" aria-label="Primary"><a href="#checks">CHECKS</a><a href="#rules">RULES</a><a href="#setup">SETUP</a><a href="#themes">THEMES</a></nav>
     <div class="theme-picker"><span class="theme-label">THEME</span><button id="themeButton" class="theme-button" type="button" aria-haspopup="listbox" aria-expanded="false" aria-controls="themeMenu">LOADING THEMES…</button><div id="themeMenu" class="theme-menu" role="listbox" aria-label="Theme" hidden></div></div>
   </header>
@@ -57,7 +57,7 @@
         <p class="tagline">A calm surface. A dangerous current beneath it. Undertow goes looking.</p>
         <p class="lede">The rkhunter/chkrootkit category, rebuilt in Rust: preload hooks, world-writable system files, and drift in SUID binaries, kernel modules and persistence points — plus a full <code>pacman -Qkk</code> integrity sweep. Detection only: it never deletes or modifies anything it finds.</p>
         <div class="chips"><span class="chip"><b>◆</b> ≈0.1S FAST CHECKS</span><span class="chip"><b>◆</b> BASELINE DRIFT</span><span class="chip"><b>◆</b> READ-ONLY</span><span class="chip"><b>◆</b> MIT</span></div>
-        <div class="cta"><a class="btn" href="https://github.com/cybercore-tech/undertow">VIEW SOURCE ↗</a><a class="btn ghost" href="#setup">INSTALL</a></div>
+        <div class="cta"><a class="btn" href="https://github.com/cybercoretech/undertow">VIEW SOURCE ↗</a><a class="btn ghost" href="#setup">INSTALL</a></div>
       </div>
       <div class="sonar reveal" aria-hidden="true">
         <svg viewBox="0 0 400 400">
@@ -113,7 +113,7 @@
       <div class="section-head reveal"><div><p class="eyebrow">03 / Setup</p><h2>Drop<br><em>the line.</em></h2></div><p>Baseline a known-good system, then check on a timer. Both <code>check</code> and <code>pacman</code> exit non-zero when something's found — built for systemd timers and alerting.</p></div>
       <div class="grid g2">
         <div class="reveal"><span class="label">BUILD + RUN</span>
-<pre class="code" data-copy><code>git clone https://github.com/cybercore-tech/undertow
+<pre class="code" data-copy><code>git clone https://github.com/cybercoretech/undertow
 cd undertow && cargo build --release
 
 undertow init      <span class="c"># SUID / module / persistence baselines</span>
@@ -124,7 +124,7 @@ undertow pacman    <span class="c"># the slow integrity sweep</span></code></pre
 <pre class="code"><code><span class="c"># enable/disable individual checks and choose which</span>
 <span class="c"># paths are scanned for world-writable files and</span>
 <span class="c"># SUID binaries — full schema in the file itself.</span></code></pre>
-          <ul class="list" style="margin-top:1.2rem"><li><b>Known limit:</b> indicators, not behavior — no de-obfuscation.</li><li><b>Known limit:</b> a determined kernel rootkit can hide its module from <code>lsmod</code>.</li><li><b>Pair with:</b> <a href="https://cybercore-tech.github.io/sigilward/">SigilWard</a> for file content integrity.</li></ul></div>
+          <ul class="list" style="margin-top:1.2rem"><li><b>Known limit:</b> indicators, not behavior — no de-obfuscation.</li><li><b>Known limit:</b> a determined kernel rootkit can hide its module from <code>lsmod</code>.</li><li><b>Pair with:</b> <a href="https://cybercoretech.github.io/sigilward/">SigilWard</a> for file content integrity.</li></ul></div>
       </div>
     </section>
 
@@ -134,7 +134,7 @@ undertow pacman    <span class="c"># the slow integrity sweep</span></code></pre
     </section>
 
     <section class="wrap section" style="padding-top:0">
-      <div class="card c-purple related reveal"><div><span class="num">◆ ALSO ON WATCH</span><h3>ARGUS — LIVE FILE INTEGRITY</h3><p>Undertow sweeps for indicators; Argus watches your sensitive files change in real time.</p></div><a class="btn" href="https://cybercore-tech.github.io/argus/">ARGUS ↗</a></div>
+      <div class="card c-purple related reveal"><div><span class="num">◆ ALSO ON WATCH</span><h3>ARGUS — LIVE FILE INTEGRITY</h3><p>Undertow sweeps for indicators; Argus watches your sensitive files change in real time.</p></div><a class="btn" href="https://cybercoretech.github.io/argus/">ARGUS ↗</a></div>
     </section>
   </main>
 
@@ -142,13 +142,13 @@ undertow pacman    <span class="c"># the slow integrity sweep</span></code></pre
     <div class="wrap"><cybercore-contact repo="undertow"><a href="mailto:dev@cybercoretech.net">dev@cybercoretech.net</a></cybercore-contact></div>
   </section>
 
-  <footer><span>CYBERCORE TECH / UNDERTOW / MIT / © <span id="year"></span></span><span><a href="https://cybercore-tech.github.io/">CYBERCORE-TECH.GITHUB.IO</a> · <a href="https://github.com/cybercore-tech/undertow">SOURCE</a></span></footer>
+  <footer><span>CYBERCORE TECH / UNDERTOW / MIT / © <span id="year"></span></span><span><a href="https://cybercoretech.github.io/">CYBERCORE-TECH.GITHUB.IO</a> · <a href="https://github.com/cybercoretech/undertow">SOURCE</a></span></footer>
 
   <script>
     (() => { const el = document.getElementById('depthVal'); if (!el || matchMedia('(prefers-reduced-motion: reduce)').matches) return;
       let d = 0; setInterval(() => { d = (d + 37) % 1200; el.textContent = d + 'm'; }, 900); })();
   </script>
   <script src="app.js"></script>
-  <script type="module" src="https://cybercore-tech.github.io/kit/contact.js"></script>
+  <script type="module" src="https://cybercoretech.github.io/kit/contact.js"></script>
 </body>
 </html>
