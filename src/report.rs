@@ -34,16 +34,25 @@ pub fn render(findings: &[Finding], color_on: bool) -> String {
 
     let mut out = String::new();
     for f in findings {
-        let (c, r) = if color_on { (severity_color(f), reset().to_string()) } else { (String::new(), String::new()) };
+        let (c, r) = if color_on {
+            (severity_color(f), reset().to_string())
+        } else {
+            (String::new(), String::new())
+        };
         match f {
             Finding::Preload(entries) => {
-                out.push_str(&format!("{c}[CRITICAL] /etc/ld.so.preload is non-empty{r}\n"));
+                out.push_str(&format!(
+                    "{c}[CRITICAL] /etc/ld.so.preload is non-empty{r}\n"
+                ));
                 for e in entries {
                     out.push_str(&format!("  {e}\n"));
                 }
             }
             Finding::WorldWritable(paths) => {
-                out.push_str(&format!("{c}[WORLD-WRITABLE] {} file(s) in sensitive paths{r}\n", paths.len()));
+                out.push_str(&format!(
+                    "{c}[WORLD-WRITABLE] {} file(s) in sensitive paths{r}\n",
+                    paths.len()
+                ));
                 for p in paths {
                     out.push_str(&format!("  {}\n", p.display()));
                 }
@@ -61,7 +70,10 @@ pub fn render(findings: &[Finding], color_on: bool) -> String {
                 render_diff(&mut out, diff);
             }
             Finding::PacmanMismatch(issues) => {
-                out.push_str(&format!("{c}[PACKAGE FILE MISMATCH] {} file(s) don't match their package{r}\n", issues.len()));
+                out.push_str(&format!(
+                    "{c}[PACKAGE FILE MISMATCH] {} file(s) don't match their package{r}\n",
+                    issues.len()
+                ));
                 for i in issues {
                     out.push_str(&format!("  {} ({}): {}\n", i.path, i.reason, i.package));
                 }

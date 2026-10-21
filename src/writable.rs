@@ -27,7 +27,9 @@ fn walk(dir: &Path, hits: &mut Vec<PathBuf>) {
     };
     for entry in entries.flatten() {
         let path = entry.path();
-        let Ok(meta) = std::fs::symlink_metadata(&path) else { continue };
+        let Ok(meta) = std::fs::symlink_metadata(&path) else {
+            continue;
+        };
         if meta.file_type().is_symlink() {
             continue;
         }
@@ -46,7 +48,8 @@ mod tests {
     use std::fs;
 
     fn scratch(name: &str) -> PathBuf {
-        let dir = std::env::temp_dir().join(format!("undertow-writable-{name}-{}", std::process::id()));
+        let dir =
+            std::env::temp_dir().join(format!("undertow-writable-{name}-{}", std::process::id()));
         fs::remove_dir_all(&dir).ok();
         fs::create_dir_all(&dir).unwrap();
         dir
@@ -59,7 +62,7 @@ mod tests {
         fs::write(&f, "x").unwrap();
         fs::set_permissions(&f, fs::Permissions::from_mode(0o666)).unwrap();
 
-        let hits = find_world_writable(&[dir.clone()]);
+        let hits = find_world_writable(std::slice::from_ref(&dir));
         assert_eq!(hits, vec![f]);
         fs::remove_dir_all(&dir).ok();
     }
@@ -71,7 +74,7 @@ mod tests {
         fs::write(&f, "x").unwrap();
         fs::set_permissions(&f, fs::Permissions::from_mode(0o644)).unwrap();
 
-        assert!(find_world_writable(&[dir.clone()]).is_empty());
+        assert!(find_world_writable(std::slice::from_ref(&dir)).is_empty());
         fs::remove_dir_all(&dir).ok();
     }
 
@@ -83,7 +86,7 @@ mod tests {
         fs::write(&f, "x").unwrap();
         fs::set_permissions(&f, fs::Permissions::from_mode(0o777)).unwrap();
 
-        let hits = find_world_writable(&[dir.clone()]);
+        let hits = find_world_writable(std::slice::from_ref(&dir));
         assert_eq!(hits, vec![f]);
         fs::remove_dir_all(&dir).ok();
     }
@@ -97,7 +100,7 @@ mod tests {
         fs::write(&f, "x").unwrap();
         fs::set_permissions(&f, fs::Permissions::from_mode(0o664)).unwrap();
 
-        assert!(find_world_writable(&[dir.clone()]).is_empty());
+        assert!(find_world_writable(std::slice::from_ref(&dir)).is_empty());
         fs::remove_dir_all(&dir).ok();
     }
 }

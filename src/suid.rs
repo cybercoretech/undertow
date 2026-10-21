@@ -22,10 +22,14 @@ pub fn find(roots: &[PathBuf]) -> BTreeSet<String> {
 }
 
 fn walk(dir: &Path, hits: &mut BTreeSet<String>) {
-    let Ok(entries) = std::fs::read_dir(dir) else { return };
+    let Ok(entries) = std::fs::read_dir(dir) else {
+        return;
+    };
     for entry in entries.flatten() {
         let path = entry.path();
-        let Ok(meta) = std::fs::symlink_metadata(&path) else { continue };
+        let Ok(meta) = std::fs::symlink_metadata(&path) else {
+            continue;
+        };
         if meta.file_type().is_symlink() {
             continue;
         }
@@ -57,7 +61,7 @@ mod tests {
         fs::write(&f, "x").unwrap();
         fs::set_permissions(&f, fs::Permissions::from_mode(0o4755)).unwrap();
 
-        let hits = find(&[dir.clone()]);
+        let hits = find(std::slice::from_ref(&dir));
         assert!(hits.contains(&f.to_string_lossy().into_owned()));
         fs::remove_dir_all(&dir).ok();
     }
@@ -69,7 +73,7 @@ mod tests {
         fs::write(&f, "x").unwrap();
         fs::set_permissions(&f, fs::Permissions::from_mode(0o2755)).unwrap();
 
-        let hits = find(&[dir.clone()]);
+        let hits = find(std::slice::from_ref(&dir));
         assert!(hits.contains(&f.to_string_lossy().into_owned()));
         fs::remove_dir_all(&dir).ok();
     }
@@ -81,7 +85,7 @@ mod tests {
         fs::write(&f, "x").unwrap();
         fs::set_permissions(&f, fs::Permissions::from_mode(0o755)).unwrap();
 
-        assert!(find(&[dir.clone()]).is_empty());
+        assert!(find(std::slice::from_ref(&dir)).is_empty());
         fs::remove_dir_all(&dir).ok();
     }
 }
