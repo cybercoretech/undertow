@@ -61,7 +61,7 @@ mod tests {
         fs::write(&f, "x").unwrap();
         fs::set_permissions(&f, fs::Permissions::from_mode(0o4755)).unwrap();
 
-        let hits = find(&[dir.clone()]);
+        let hits = find(std::slice::from_ref(&dir));
         assert!(hits.contains(&f.to_string_lossy().into_owned()));
         fs::remove_dir_all(&dir).ok();
     }
@@ -73,7 +73,7 @@ mod tests {
         fs::write(&f, "x").unwrap();
         fs::set_permissions(&f, fs::Permissions::from_mode(0o2755)).unwrap();
 
-        let hits = find(&[dir.clone()]);
+        let hits = find(std::slice::from_ref(&dir));
         assert!(hits.contains(&f.to_string_lossy().into_owned()));
         fs::remove_dir_all(&dir).ok();
     }
@@ -85,7 +85,7 @@ mod tests {
         fs::write(&f, "x").unwrap();
         fs::set_permissions(&f, fs::Permissions::from_mode(0o755)).unwrap();
 
-        assert!(find(&[dir.clone()]).is_empty());
+        assert!(find(std::slice::from_ref(&dir)).is_empty());
         fs::remove_dir_all(&dir).ok();
     }
 }

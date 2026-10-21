@@ -62,7 +62,7 @@ mod tests {
         fs::write(&f, "x").unwrap();
         fs::set_permissions(&f, fs::Permissions::from_mode(0o666)).unwrap();
 
-        let hits = find_world_writable(&[dir.clone()]);
+        let hits = find_world_writable(std::slice::from_ref(&dir));
         assert_eq!(hits, vec![f]);
         fs::remove_dir_all(&dir).ok();
     }
@@ -74,7 +74,7 @@ mod tests {
         fs::write(&f, "x").unwrap();
         fs::set_permissions(&f, fs::Permissions::from_mode(0o644)).unwrap();
 
-        assert!(find_world_writable(&[dir.clone()]).is_empty());
+        assert!(find_world_writable(std::slice::from_ref(&dir)).is_empty());
         fs::remove_dir_all(&dir).ok();
     }
 
@@ -86,7 +86,7 @@ mod tests {
         fs::write(&f, "x").unwrap();
         fs::set_permissions(&f, fs::Permissions::from_mode(0o777)).unwrap();
 
-        let hits = find_world_writable(&[dir.clone()]);
+        let hits = find_world_writable(std::slice::from_ref(&dir));
         assert_eq!(hits, vec![f]);
         fs::remove_dir_all(&dir).ok();
     }
@@ -100,7 +100,7 @@ mod tests {
         fs::write(&f, "x").unwrap();
         fs::set_permissions(&f, fs::Permissions::from_mode(0o664)).unwrap();
 
-        assert!(find_world_writable(&[dir.clone()]).is_empty());
+        assert!(find_world_writable(std::slice::from_ref(&dir)).is_empty());
         fs::remove_dir_all(&dir).ok();
     }
 }
