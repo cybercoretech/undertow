@@ -10,11 +10,21 @@ fn default_true() -> bool {
 }
 
 fn default_writable_paths() -> Vec<String> {
-    vec!["/etc".to_string(), "/usr/bin".to_string(), "/usr/sbin".to_string(), "/etc/systemd/system".to_string()]
+    vec![
+        "/etc".to_string(),
+        "/usr/bin".to_string(),
+        "/usr/sbin".to_string(),
+        "/etc/systemd/system".to_string(),
+    ]
 }
 
 fn default_suid_paths() -> Vec<String> {
-    vec!["/usr/bin".to_string(), "/usr/sbin".to_string(), "/usr/local/bin".to_string(), "/usr/local/sbin".to_string()]
+    vec![
+        "/usr/bin".to_string(),
+        "/usr/sbin".to_string(),
+        "/usr/local/bin".to_string(),
+        "/usr/local/sbin".to_string(),
+    ]
 }
 
 #[derive(Deserialize, Debug, Clone)]
@@ -59,7 +69,10 @@ pub fn default_config_path() -> Option<PathBuf> {
         .map(PathBuf::from)
         .or_else(|_| std::env::var("HOME").map(|h| PathBuf::from(h).join(".config")))
         .ok()?;
-    let candidates = [config_home.join("undertow").join("config.toml"), PathBuf::from("config.toml")];
+    let candidates = [
+        config_home.join("undertow").join("config.toml"),
+        PathBuf::from("config.toml"),
+    ];
     candidates.into_iter().find(|p| p.exists())
 }
 
@@ -73,6 +86,7 @@ pub fn expand_home(path: &str) -> PathBuf {
 }
 
 pub fn load(path: &std::path::Path) -> Result<AppConfig, String> {
-    let raw = std::fs::read_to_string(path).map_err(|e| format!("failed to read {}: {}", path.display(), e))?;
+    let raw = std::fs::read_to_string(path)
+        .map_err(|e| format!("failed to read {}: {}", path.display(), e))?;
     toml::from_str(&raw).map_err(|e| format!("failed to parse {}: {}", path.display(), e))
 }

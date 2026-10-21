@@ -21,7 +21,12 @@ fn check_at(path: &Path) -> Vec<String> {
     let Ok(content) = std::fs::read_to_string(path) else {
         return Vec::new(); // doesn't exist — the expected, safe state
     };
-    content.lines().map(str::trim).filter(|l| !l.is_empty() && !l.starts_with('#')).map(String::from).collect()
+    content
+        .lines()
+        .map(str::trim)
+        .filter(|l| !l.is_empty() && !l.starts_with('#'))
+        .map(String::from)
+        .collect()
 }
 
 #[cfg(test)]
@@ -35,7 +40,8 @@ mod tests {
 
     #[test]
     fn empty_file_is_empty_result() {
-        let path = std::env::temp_dir().join(format!("undertow-preload-empty-{}", std::process::id()));
+        let path =
+            std::env::temp_dir().join(format!("undertow-preload-empty-{}", std::process::id()));
         std::fs::write(&path, "").unwrap();
         assert!(check_at(&path).is_empty());
         std::fs::remove_file(&path).ok();
@@ -43,7 +49,8 @@ mod tests {
 
     #[test]
     fn blank_lines_and_comments_are_ignored() {
-        let path = std::env::temp_dir().join(format!("undertow-preload-comments-{}", std::process::id()));
+        let path =
+            std::env::temp_dir().join(format!("undertow-preload-comments-{}", std::process::id()));
         std::fs::write(&path, "# a comment\n\n   \n").unwrap();
         assert!(check_at(&path).is_empty());
         std::fs::remove_file(&path).ok();
@@ -51,7 +58,8 @@ mod tests {
 
     #[test]
     fn real_entry_is_flagged() {
-        let path = std::env::temp_dir().join(format!("undertow-preload-real-{}", std::process::id()));
+        let path =
+            std::env::temp_dir().join(format!("undertow-preload-real-{}", std::process::id()));
         std::fs::write(&path, "# comment\n/usr/lib/evil.so\n").unwrap();
         let entries = check_at(&path);
         assert_eq!(entries, vec!["/usr/lib/evil.so".to_string()]);

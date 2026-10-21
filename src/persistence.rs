@@ -43,7 +43,9 @@ pub fn persistence_paths(home: &Path) -> BTreeSet<String> {
 /// drop-in's own subdirectory structure) that isn't itself a new
 /// persistence mechanism.
 fn collect_files(dir: &Path, out: &mut BTreeSet<String>) {
-    let Ok(entries) = std::fs::read_dir(dir) else { return };
+    let Ok(entries) = std::fs::read_dir(dir) else {
+        return;
+    };
     for entry in entries.flatten() {
         if entry.file_type().map(|t| t.is_file()).unwrap_or(false) {
             out.insert(entry.path().to_string_lossy().into_owned());
@@ -57,7 +59,8 @@ mod tests {
     use std::fs;
 
     fn scratch(name: &str) -> PathBuf {
-        let dir = std::env::temp_dir().join(format!("undertow-persist-{name}-{}", std::process::id()));
+        let dir =
+            std::env::temp_dir().join(format!("undertow-persist-{name}-{}", std::process::id()));
         fs::remove_dir_all(&dir).ok();
         fs::create_dir_all(&dir).unwrap();
         dir
@@ -91,7 +94,10 @@ mod tests {
         let home = scratch("missing");
         // no .config/autostart created under the fake home at all
         let paths = persistence_paths(&home);
-        let home_autostart_prefix = home.join(".config/autostart").to_string_lossy().into_owned();
+        let home_autostart_prefix = home
+            .join(".config/autostart")
+            .to_string_lossy()
+            .into_owned();
         assert!(paths.iter().all(|p| !p.starts_with(&home_autostart_prefix)));
     }
 }

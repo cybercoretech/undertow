@@ -40,6 +40,9 @@ xt_hl                  12288  22
         assert_eq!(modules.len(), 4);
         assert!(modules.contains("udp_diag"));
         assert!(modules.contains("ip6t_REJECT"));
-        assert!(!modules.contains("Module"), "header row must not be parsed as a module");
+        assert!(
+            !modules.contains("Module"),
+            "header row must not be parsed as a module"
+        );
     }
 }

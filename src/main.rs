@@ -15,7 +15,11 @@ use std::path::PathBuf;
 use std::process::ExitCode;
 
 #[derive(Parser, Debug)]
-#[command(name = "undertow", version = "0.1.0", about = "Rootkit/compromise indicator checks")]
+#[command(
+    name = "undertow",
+    version = "0.1.0",
+    about = "Rootkit/compromise indicator checks"
+)]
 struct Args {
     #[command(subcommand)]
     command: Commands,
@@ -53,7 +57,9 @@ fn expand_all(cfg_paths: &[String]) -> Vec<PathBuf> {
 }
 
 fn home_dir() -> PathBuf {
-    std::env::var("HOME").map(PathBuf::from).unwrap_or_else(|_| PathBuf::from("/"))
+    std::env::var("HOME")
+        .map(PathBuf::from)
+        .unwrap_or_else(|_| PathBuf::from("/"))
 }
 
 fn collect_findings(cfg: &config::AppConfig, st: &state::State) -> Vec<Finding> {
@@ -115,7 +121,11 @@ fn main() -> ExitCode {
 
     match args.command {
         Commands::Init | Commands::Update => {
-            let mut st = if matches!(args.command, Commands::Update) { state::load(&state_path) } else { state::State::default() };
+            let mut st = if matches!(args.command, Commands::Update) {
+                state::load(&state_path)
+            } else {
+                state::State::default()
+            };
             st.suid = baseline::establish(suid::find(&expand_all(&cfg.suid_paths)));
             st.modules = baseline::establish(modules::loaded_modules());
             st.persistence = baseline::establish(persistence::persistence_paths(&home_dir()));
@@ -142,7 +152,11 @@ fn main() -> ExitCode {
         }
         Commands::Pacman => match pacman::check_all() {
             Ok(issues) => {
-                let findings = if issues.is_empty() { vec![] } else { vec![Finding::PacmanMismatch(issues)] };
+                let findings = if issues.is_empty() {
+                    vec![]
+                } else {
+                    vec![Finding::PacmanMismatch(issues)]
+                };
                 let failed = !findings.is_empty();
                 print!("{}", report::render(&findings, !args.no_color));
                 if failed {

@@ -38,7 +38,11 @@ fn parse_warnings(stderr: &str) -> Vec<PacmanIssue> {
             let (package, rest) = rest.split_once(": ")?;
             let (path, reason) = rest.rsplit_once(" (")?;
             let reason = reason.strip_suffix(')')?;
-            Some(PacmanIssue { package: package.to_string(), path: path.to_string(), reason: reason.to_string() })
+            Some(PacmanIssue {
+                package: package.to_string(),
+                path: path.to_string(),
+                reason: reason.to_string(),
+            })
         })
         .collect()
 }
@@ -56,7 +60,10 @@ mod tests {
         let issues = parse_warnings(REAL_SAMPLE);
         assert_eq!(issues.len(), 2);
         assert_eq!(issues[0].package, "yaru-icon-theme");
-        assert_eq!(issues[0].path, "/usr/share/icons/Yaru/scalable/actions/go-next-symbolic.svg");
+        assert_eq!(
+            issues[0].path,
+            "/usr/share/icons/Yaru/scalable/actions/go-next-symbolic.svg"
+        );
         assert_eq!(issues[0].reason, "File type mismatch");
     }
 
