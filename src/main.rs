@@ -17,7 +17,7 @@ use std::process::ExitCode;
 #[derive(Parser, Debug)]
 #[command(
     name = "undertow",
-    version = "0.1.0",
+    version,
     about = "Rootkit/compromise indicator checks"
 )]
 struct Args {
