@@ -15,3 +15,9 @@ project site shares one source of truth. A signature mashup takes surfaces
 Local preview: serve a folder containing `undertow/` (this dir) and `data/`
 (copied or symlinked from the org site repo), then open
 `http://127.0.0.1:<port>/undertow/`.
+
+The page consumes the versioned Cybercore Web Kit from
+`https://cybercoretech.github.io/kit/v1/`. The shared theme runtime is no longer
+copied into this repository; site-specific behavior remains in `index.html` and
+`styles.css`. The runtime honors `window.SITE.web` motion/effect recipes and
+`prefers-reduced-motion`.
